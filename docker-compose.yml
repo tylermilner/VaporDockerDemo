@@ -5,9 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile-dev
     image: api:dev
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     ports:
       - 8080:8080
     volumes:
@@ -16,11 +13,3 @@ services:
     stdin_open: true
     tty: true
     entrypoint: bash
-  db:
-    image: postgres:10.5
-    ports: 
-      - 5432:5432
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
