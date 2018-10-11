@@ -18,11 +18,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     // Configure a PostgreSQL database
-    let databaseConfig = PostgreSQLDatabaseConfig(hostname: "127.0.0.1",
+    let databaseConfig = PostgreSQLDatabaseConfig(hostname: "0.0.0.0",
                                                   port: 5432,
-                                                  username: "tylermilner",
-                                                  database: "vapordockerdemo",
-                                                  password: nil)
+                                                  username: "postgres",
+                                                  database: "postgres",
+                                                  password: "postgres")
     services.register(databaseConfig)
 
     /// Configure migrations
