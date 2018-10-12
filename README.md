@@ -1,6 +1,18 @@
 # VaporDockerDemo
 
-A simple project showcasing how the [Vapor](https://vapor.codes) server-side Swift framework can be used with [Docker](https://www.docker.com/). This repository in its current state reflects the development environment configuration that you might use with Docker. This means that when launching the Docker containers, the server app is not started by default. Instead, this setup relies on you to manually attach to the server app's container instance and execute compilation and run commands. A production setup would automatically build and launch your server app when the container is started.
+A simple project showcasing how the [Vapor](https://vapor.codes) server-side Swift framework can be used with [Docker](https://www.docker.com/).
+
+## Docker Configuration
+
+This repository in its current state reflects the development environment configuration that you might use with Docker. This means that when launching the Docker containers, the server app is not started by default. Instead, this setup relies on you to manually attach to the server app's container instance and execute compilation and run commands. A production setup would automatically build and launch your server app when the container is started.
+
+### Dockerfile-dev
+
+The [Dockerfile](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) specifies instructions for building our Docker image. Currently, it only specifies the latest [Swift Docker image](https://hub.docker.com/_/swift/) as its base image.
+
+### docker-compose.yml
+
+The [Docker Compose file](https://docs.docker.com/compose/compose-file/) defines how our Docker containers are setup. It currently specifies an "api" and a "db" container corresponding to our Vapor server app and PostgreSQL database, respectively. The file also maps directories and ports inside of the container to directories and ports on our host machine so that we can share the same development folder on the filesystem and easily test the app from our host machine.
 
 ## Getting Started
 
