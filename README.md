@@ -71,4 +71,12 @@ Notice the `-b 0.0.0.0` option passed to the `serve` command. We need to specify
 
 ## Testing Things Out
 
+## Browser
+
+A quick test can be performed in your web browser to verify the server app is up-and-running.
+
 Because of the way the `docker-compose.yml` file is configured, port `8080` inside of the container is mapped to port `8080` on our local machine. This means that you should be able to open up your favorite browser and navigate to `http://localhost:8080/hello` to see the default `"Hello, world!"` output of the Vapor app. Navigating to `http://0.0.0.0:8080/hello` will also work.
+
+## Postman
+
+In order to test the app's connection to the PostgreSQL database, you need to be able to execute `POST` and `DELETE` requests to the server app in additon to standard `GET` requests. A [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` Postman collection into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, as long as an item has been created.
