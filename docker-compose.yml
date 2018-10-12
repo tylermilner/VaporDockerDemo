@@ -17,7 +17,7 @@ services:
     tty: true
     entrypoint: bash
   db:
-    image: postgres:10.5
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
