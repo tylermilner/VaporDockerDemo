@@ -18,7 +18,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     // Configure a PostgreSQL database
-    let databaseConfig = PostgreSQLDatabaseConfig(hostname: "0.0.0.0",
+    let databaseConfig = PostgreSQLDatabaseConfig(hostname: "db",
                                                   port: 5432,
                                                   username: "postgres",
                                                   database: "postgres",
