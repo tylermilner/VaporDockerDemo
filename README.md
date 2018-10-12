@@ -1,6 +1,6 @@
 # VaporDockerDemo
 
-A simple project showcasing how Swift [Vapor](https://vapor.codes) can be used with [Docker](https://www.docker.com/). 
+A simple project showcasing how the [Vapor](https://vapor.codes) server-side Swift framework can be used with [Docker](https://www.docker.com/). This repository in its current state reflects the development environment configuration that you might use with Docker. This means that when launching the Docker containers, the server app is not started by default. Instead, this setup relies on you to manually attach to the server app's container instance and execute compilation and run commands. A production setup would automatically build and launch your server app when the container is started.
 
 ## Getting Started
 
@@ -41,7 +41,7 @@ Attach to the vapor app container by executing the following command, replacing 
 docker attach <container_id>
 ```
 
-Hit `return` once more and your terminal prompt should now start with something like `root@<container_id>:/app#`, which reflects the fact that you're now running a bash instance inside of that container.
+The command will appear to stall or not do anything, but just hit `return` again and your terminal prompt should now start with something like `root@<container_id>:/app#`, which reflects the fact that you're now running as a bash instance inside of that container.
 
 ### Building the Vapor App
 
@@ -67,7 +67,7 @@ You're vapor app should then startup and output the following to your terminal w
 Server starting on http://0.0.0.0:8080
 ```
 
-Notice the `-b 0.0.0.0` option passed to the `serve` command. We need to specify the `0.0.0.0` IP address since that's the one that the Docker container is running on (via the output of the `docker ps` command that we ran previously). By default, a `swift run` command will start the server on `localhost`, which is not what we want.
+Notice the `-b 0.0.0.0` option passed to the `serve` command. We need to specify the `0.0.0.0` IP address since that's the one that the Docker container is running on (via the output of the `docker ps` command that we ran previously). By default, a `swift run` command will start the server on `localhost`, which is not what we want (i.e. the app will not be accessible from our host machine).
 
 ## Testing Things Out
 
