@@ -14,6 +14,16 @@ The [Dockerfile](https://docs.docker.com/develop/develop-images/dockerfile_best-
 
 The [Docker Compose file](https://docs.docker.com/compose/compose-file/) defines how our Docker containers are setup. It currently specifies an "api" and a "db" container corresponding to our Vapor server app and PostgreSQL database, respectively. The file also maps directories and ports inside of the container to directories and ports on our host machine so that we can share the same development folder on the filesystem and easily test the app from our host machine.
 
+## Server App
+
+The Vapor Swift server app in this repo is just the standard [Vapor API template app](https://github.com/vapor/api-template), which is a simple backend that stores Todo list items in a database. The source code has been slightly modified to use a PostgreSQL database rather than the default SQLite database, but all other functionality remains the same. The following endpoints are available when the app is running:
+
+* `GET /`
+* `GET /hello`
+* `GET /todos`
+* `POST /todos`
+* `DELETE /todos`
+
 ## Getting Started
 
 ### Installing Docker
