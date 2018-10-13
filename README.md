@@ -102,3 +102,7 @@ Because of the way the `docker-compose.yml` file is configured, port `8080` insi
 ## Postman
 
 In order to test the app's connection to the PostgreSQL database, you need to be able to execute `POST` and `DELETE` requests to the server app in additon to standard `GET` requests. A [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` Postman collection into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, as long as an item has been created.
+
+## References
+
+The content in this repo is based on this [excellent article by bygri](https://bygri.github.io/2018/05/14/developing-deploying-vapor-docker.html).
