@@ -15,12 +15,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/todos",
-					"protocol": "http",
+					"raw": "{{baseURL}}/todos",
 					"host": [
-						"localhost"
+						"{{baseURL}}"
 					],
-					"port": "8080",
 					"path": [
 						"todos"
 					]
@@ -38,12 +36,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/todos/1",
-					"protocol": "http",
+					"raw": "{{baseURL}}/todos/1",
 					"host": [
-						"localhost"
+						"{{baseURL}}"
 					],
-					"port": "8080",
 					"path": [
 						"todos",
 						"1"
@@ -69,12 +65,10 @@
 					"raw": "{\n\t\"title\": \"Test\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/todos",
-					"protocol": "http",
+					"raw": "{{baseURL}}/todos",
 					"host": [
-						"localhost"
+						"{{baseURL}}"
 					],
-					"port": "8080",
 					"path": [
 						"todos"
 					]
