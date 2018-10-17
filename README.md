@@ -25,9 +25,13 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 7c61d587b9f8        api:dev             "bash"              About an hour ago   Up About an hour    0.0.0.0:8080->8080/tcp   vapordockerdemo_api_1
 ```
 
-#### `docker attach <container_id>`
+#### `docker attach`
 
 The `attach` command will attach the current terminal instance to the specified container. If the container includes an entrypoint like `bash`, then it will allow us to execute terminal commands _inside_ of the running container.
+
+#### `docker stop`
+
+The `stop` command will stop the specified container. You'll need to use when you want to stop containers that are running in the background.
 
 #### `docker build`
 
@@ -74,7 +78,7 @@ In order to get started, you'll need to install Docker. Since I'm on macOS, I'm 
 Once Docker is installed and running, navigate to the project directory and run the following command to start up the containers:
 
 ```bash
-docker-compose up --build
+docker-compose --file docker-compose-dev.yml up --build
 ```
 
 #### Attaching to the Vapor App Container
@@ -137,14 +141,14 @@ In order to test the app's integration with the PostgreSQL database, you need to
 
 ### Production Dockerfile
 
-Our `Dockerfile` uses a [multi-stage build process](https://docs.docker.com/develop/develop-images/multistage-build/) to create a standalone Docker container image that contains our production server application. The first stage simply builds the release version of the server app, creating an application binary called `Run`. The second stage builds upon a stock Ubuntu docker image, adding the necessary dependencies for running the binary produced in the first stage and specifies the container entrypoint, or command that gets run when the image is launched.
+`Dockerfile-prod` uses a [multi-stage build process](https://docs.docker.com/develop/develop-images/multistage-build/) to create a standalone Docker container image that contains our production server application. The first stage simply builds the release version of the server app, creating an application binary called `Run`. The second stage builds upon a stock Ubuntu docker image, adding the necessary dependencies for running the binary produced in the first stage and specifies the container entrypoint, or command that gets run when the image is launched.
 
 #### Building the Docker Image
 
 Docker images are tagged in the format `name:version`. Execute the following command to build the Docker image from the production `Dockerfile`:
 
 ```bash
-docker build -t vapordockerdemo:0.0.1 .
+docker build --file Dockerfile-prod --tag vapordockerdemo:0.0.1 .
 ```
 
 #### Running the Docker Image
@@ -152,7 +156,7 @@ docker build -t vapordockerdemo:0.0.1 .
 Once the image is built, execute the following command to start it up:
 
 ```bash
-docker run -p 8080:8080 vapordockerdemo:0.0.1
+docker run --publish 8080:8080 vapordockerdemo:0.0.1
 ```
 
 The image will run, but the server application will immediately crash on launch with a message like the following:
@@ -178,7 +182,7 @@ In the end, the only pieces of data that we need to define our production "api" 
 Again, the `docker-compose` command is used to launch the containers. However, this time we need to specify that we want to use the production compose file:
 
 ```bash
-docker-compose -f docker-compose-prod.yml up --build
+docker-compose --file docker-compose-prod.yml up --build
 ```
 
 ### Testing Things Out
@@ -187,4 +191,4 @@ Once the containers are running, you should be able to follow the same steps abo
 
 ## References
 
-The content in this repo is based on this [excellent article by bygri](https://bygri.github.io/2018/05/14/developing-deploying-vapor-docker.html).
+The content in this repo is based on [this excellent article by bygri](https://bygri.github.io/2018/05/14/developing-deploying-vapor-docker.html).
