@@ -121,7 +121,7 @@ docker build -t vapordockerdemo:0.0.1 .
 
 ### Running the Docker Image
 
-Once the image is built, execute the following command to make sure it will run:
+Once the image is built, execute the following command to start it up:
 
 ```bash
 docker run -p 8080:8080 vapordockerdemo:0.0.1
@@ -133,7 +133,27 @@ The image will run, but the server application should crash on launch with a mes
 Fatal error: Error raised at top level: NIO.ChannelError.connectFailed(NIO.NIOConnectionError(host: "db", port: 5432, dnsAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), dnsAAAAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), connectionErrors: [])): file /home/buildnode/jenkins/workspace/oss-swift-4.2-package-linux-ubuntu-16_04/swift/stdlib/public/core/ErrorType.swift, line 191
 ```
 
-The app fails to launch because it can't initiate a connection to the PostgreSQL database. That's expected at this stage because we haven't yet created a production Docker compose file that specifies the other containers that need to launch with our server app (i.e. the PostgreSQL container).
+The app crashes at launch because it can't initiate a connection to the PostgreSQL database. That's expected at this stage because we haven't yet created a production Docker compose file that specifies the other containers that need to launch with our server app (i.e. the PostgreSQL container).
+
+### docker-compose-prod.yml
+
+In order to stand up all the necessary containers at once, we'll again make use a Docker compose file. The production compose file is very similar to the `docker-compose.yml` that's used for development, but differs in the following ways:
+
+* The "api" container no longer includes a build step. Instead, it makes use of the `vapordockerdemo:0.0.1` image that we built using the production `Dockerfile`.
+* The "api" container is no longer concerned with mounting the current directory on the host machine to the `/app` directory inside of the container. Likewise, a bash prompt is no longer the entrypoint for the container.
+* The "api" container no longer maps port `8080` on the host machine to port `8080` of the container. Instead, port `80` on the host machine gets mapped to port `8080` on the container. This more accurately reflects what you would typically expect for a production application - HTTP traffic is served over port `80`.
+
+In the end, the only pieces of data that we need to define our production "api" container are the Docker image to use, the port mapping, and any environment variables.
+
+### Starting the Docker Containers
+
+Again, the `docker-compose` command is used to launch the containers. However, this time we need to specify that we want to use the production compose file:
+
+```bash
+docker-compose -f docker-compose-prod.yml up --build
+```
+
+Once the containers are running, you should be able to follow the same steps above to test the server application using a web browser or HTTP client like Postman. Note that you will need to use port `80` instead of port `8080` this time.
 
 ## References
 
