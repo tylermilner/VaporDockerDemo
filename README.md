@@ -2,13 +2,15 @@
 
 A simple project showcasing how the [Vapor](https://vapor.codes) server-side Swift framework can be used with [Docker](https://www.docker.com/).
 
-## Docker Configuration
+## Development vs Production Docker Configuration
 
-This repository in its current state reflects the development environment configuration that you might use with Docker. This means that when launching the Docker containers, the server app is not started by default. Instead, this setup relies on you to manually attach to the server app's container instance and execute compilation and run commands. A production setup would automatically build and launch your server app when the container is started.
+Using Docker during the development process differs from how you might use it to deploy your production app. The main difference is that your server app won't automatically start when the container is launched. This allows you to be a little more "hands on" during the development process, attaching to the server app's container instance and executing compilation and run commands inside of the Docker container when necessary. A production setup would automatically build and launch your server app when the container is started.
+
+## Developing with Docker
 
 ### Dockerfile-dev
 
-The [Dockerfile](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) specifies instructions for building our Docker image. Currently, it only specifies the latest [Swift Docker image](https://hub.docker.com/_/swift/) as its base image.
+The [Dockerfile](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) specifies instructions for building our Docker image. Currently, it only specifies the latest [Swift Docker image](https://hub.docker.com/_/swift/) as its base image. This is fine for our development environment since we just need something that can build and run Swift apps.
 
 ### docker-compose.yml
 
@@ -102,6 +104,36 @@ Because of the way the `docker-compose.yml` file is configured, port `8080` insi
 ### Postman
 
 In order to test the app's connection to the PostgreSQL database, you need to be able to execute `POST` and `DELETE` requests to the server app in additon to standard `GET` requests. A [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` Postman collection into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, as long as an item has been created.
+
+## Deploying with Docker
+
+### Dockerfile
+
+This is the production Dockerfile. It uses a [multi-stage build process](https://docs.docker.com/develop/develop-images/multistage-build/) to create a standalone Docker container image that contains our production server application. The first stage simply builds the release version of the server app, creating an application binary called `Run`. The second stage builds upon a stock Ubuntu docker image, adding the necessary dependencies for running the binary produced in the first stage and specifies the container entrypoint, or command that gets run when the image is launched.
+
+### Building the Docker Image
+
+Docker images are tagged in the format `name:version`. Execute the following command to build the Docker image from the production `Dockerfile`:
+
+```bash
+docker build -t vapordockerdemo:0.0.1 .
+```
+
+### Running the Docker Image
+
+Once the image is built, execute the following command to make sure it will run:
+
+```bash
+docker run -p 8080:8080 vapordockerdemo:0.0.1
+```
+
+The image will run, but the server application should crash on launch with a message like the following:
+
+```bash
+Fatal error: Error raised at top level: NIO.ChannelError.connectFailed(NIO.NIOConnectionError(host: "db", port: 5432, dnsAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), dnsAAAAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), connectionErrors: [])): file /home/buildnode/jenkins/workspace/oss-swift-4.2-package-linux-ubuntu-16_04/swift/stdlib/public/core/ErrorType.swift, line 191
+```
+
+The app fails to launch because it can't initiate a connection to the PostgreSQL database. That's expected at this stage because we haven't yet created a production Docker compose file that specifies the other containers that need to launch with our server app (i.e. the PostgreSQL container).
 
 ## References
 
