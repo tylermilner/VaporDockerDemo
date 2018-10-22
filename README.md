@@ -47,7 +47,7 @@ Using Docker during the development process differs from how you might use it to
 
 ## The Server App
 
-The Vapor Swift server app in this repo is just the standard [Vapor API template app](https://github.com/vapor/api-template), which is a simple backend that stores Todo list items in a database. The source code has been modified slightly to use a PostgreSQL database rather than the default SQLite database, but all other functionality remains the same. The following endpoints are available when the app is running:
+The Vapor Swift server app in this repo is just the standard [Vapor API template app](https://github.com/vapor/api-template), which is a simple backend that stores Todo list items in a database. To keep things simple, the version of the app on this branch uses the default in-memory SQLite database which starts fresh each time the app is launched. Check out the `master` branch to see a version of this app that connects to a containerized PostgreSQL database. The following endpoints are available when the app is running:
 
 * `GET /`
 * `GET /hello`
@@ -69,7 +69,7 @@ In order to get started, you'll need to install Docker. Since I'm on macOS, I'm 
 
 ### Development Docker Compose File
 
- `docker-compose.yml` currently specifies an "api" and a "db" container, which corresponds to our Vapor server app and PostgreSQL database, respectively. The file also maps directories and ports inside of the container to directories and ports on our host machine so that we can share the same development folder on the filesystem and easily test the app from our host machine.
+ `docker-compose.yml` currently specifies an "api" container, which corresponds to our Vapor server app. The file also maps directories and ports inside of the container to directories and ports on our host machine so that we can share the same development folder on the filesystem and easily test the app from our host machine.
 
 ### Running the App
 
@@ -135,7 +135,7 @@ Because of the way the `docker-compose.yml` file is configured, port `8080` insi
 
 #### Postman
 
-In order to test the app's integration with the PostgreSQL database, you need to be able to execute `POST` and `DELETE` requests in additon to standard `GET` requests. Inside of the `Postman` directory, a [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` collection and `VaporDockerDemo-Dev.postman_environment.json` environment into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, assuming an item already exists.
+In order to test the app's integration with the in-memory SQLite database, you need to be able to execute `POST` and `DELETE` requests in additon to standard `GET` requests. Inside of the `Postman` directory, a [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` collection and `VaporDockerDemo-Dev.postman_environment.json` environment into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, assuming an item already exists.
 
 ## Deploying with Docker
 
@@ -159,13 +159,7 @@ Once the image is built, execute the following command to start it up:
 docker run --publish 8080:8080 vapordockerdemo:0.0.1
 ```
 
-The image will run, but the server application will immediately crash on launch with a message like the following:
-
-```bash
-Fatal error: Error raised at top level: NIO.ChannelError.connectFailed(NIO.NIOConnectionError(host: "db", port: 5432, dnsAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), dnsAAAAError: Optional(NIO.SocketAddressError.unknown(host: "db", port: 5432)), connectionErrors: [])): file /home/buildnode/jenkins/workspace/oss-swift-4.2-package-linux-ubuntu-16_04/swift/stdlib/public/core/ErrorType.swift, line 191
-```
-
-The app crashes because it can't initiate a connection to the PostgreSQL database. That's expected at this stage because we haven't yet created a production Docker Compose file that specifies the other containers that need to be launched with our server app (i.e. the PostgreSQL container).
+Use the `docker ps` and `docker stop` commands to stop the container.
 
 ### Production Docker Compose File
 
