@@ -192,3 +192,8 @@ Once the containers are running, you should be able to follow the same steps abo
 ## References
 
 The content in this repo is based on [this excellent article by bygri](https://bygri.github.io/2018/05/14/developing-deploying-vapor-docker.html).
+
+## WIP
+
+* Security
+    * Incorporate suggestions about running Docker apps as non-root user from [this blog post](https://americanexpress.io/do-not-run-dockerized-applications-as-root/).
