@@ -18,7 +18,7 @@ The [Docker Compose file](https://docs.docker.com/compose/compose-file/) defines
 
 #### `docker ps`
 
-The `ps` command lists all currently running Docker containers. We'll use it to check which containers are running so that we can attach to them when needed. The output of this command looks something like:
+The `ps` command lists all currently running Docker containers. We'll use it to check which containers are running so that we can attach to them when needed. When a container is running, the output of this command looks something like:
 
 ```bash
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
