@@ -139,6 +139,10 @@ Because of the way the `docker-compose.yml` file is configured, port `8080` insi
 
 In order to test the app's integration with the PostgreSQL database, you need to be able to execute `POST` and `DELETE` requests in additon to standard `GET` requests. Inside of the `Postman` directory, a [Postman](https://www.getpostman.com/) collection has been provided that contains these requests to create, delete, and return TODO items. Import the `VaporDockerDemo.postman_collection.json` collection and `VaporDockerDemo-Dev.postman_environment.json` environment into your Postman app and execute the provided requests. Note that an item identifier must be provided in the path of the "Delete TODO" request. By default, it will delete the first item so the request will only work once, assuming an item already exists.
 
+### Stopping the Containers
+
+Doing a standard `CTL` + `C` in the Terminal instance that you executed the `docker-compose` command will automatically shutdown the containers that were started. You can also manually stop each container by issuing `docker stop` commands, as mentioned above.
+
 ## Deploying with Docker
 
 ### Production Dockerfile
