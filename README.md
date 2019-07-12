@@ -97,7 +97,9 @@ Attach to the Vapor app container by executing the following command, replacing 
 docker attach <container_id>
 ```
 
-The command will appear to stall or not do anything, but just hit `return` again and your terminal prompt should now start with something like `root@<container_id>:/app#`, which reflects the fact that you're now running as a bash instance inside of that container.
+Your terminal prompt should now start with something like `root@<container_id>:/app#`, which reflects the fact that you're now running as a bash instance inside of that container.
+
+**NOTE:** If the command appears to stall or not do anything, you might try hitting `return` again. I've needed to do this in the past, but it doesn't currently seem to be an issue for me.  
 
 Because of the way the development Docker Compose file is configured, your project directory on your local filesystem is actually mounted as a volume inside of the container. If you execute the `ls` command inside of your Docker container's terminal instance, you should see the contents of the project directory.
 
